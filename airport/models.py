@@ -8,6 +8,10 @@ class FlightCompany(models.Model):
     description = models.TextField()
 
 
+class AirLine(models.Model):
+    name = models.CharField(max_length=255)
+    
+    
 class Airport(models.Model):
     city = models.CharField(max_length=255)
     image = models.ImageField(upload_to='city')
@@ -18,9 +22,20 @@ class Airport(models.Model):
     class Meta:
         pass 
     
+  
+class Aircraft(models.Model):
+    name = models.CharField(max_length=255)
+    aircarft_type = models.CharField(max_length=255)
+    description = models.TextField()
+    
+    def __str__(self):
+        return self.name 
+
     
 class Flight(models.Model):
     flight_number = models.IntegerField()
+    aircraft = models.OneToOneField(Aircraft, on_delete=models.CASCADE, related_name="flights")
+    air_line = models.ForeignKey(AirLine, on_delete=models.CASCADE, related_name="flights")
     origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='tickets_origin')
     destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='tickets_destination')
     cost = models.IntegerField(default=0)
@@ -67,3 +82,5 @@ class Worker(models.Model):
 
     def __str__(self):
         return f"{self.name}, {self.job}"
+
+
