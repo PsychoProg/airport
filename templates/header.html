@@ -26,10 +26,10 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="{% url 'home' %}">Home</a></li>
-                        <li><a href="{% url 'about' %}">About</a></li>
+                        {% comment %} <li><a href="{% url 'about' %}">About</a></li> {% endcomment %}
                         <li><a href="{% url 'deals' %}">Deals</a></li>
                         <li><a href="{% url 'services' %}">Services</a></li>
-                        <li><a href="#">Book Yours</a></li>
+                        {% comment %} <li><a href="#">Book Yours</a></li> {% endcomment %}
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>

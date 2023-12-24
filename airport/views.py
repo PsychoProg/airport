@@ -1,5 +1,7 @@
 from django.shortcuts import redirect, render
-from .models import Flight, Ticket, Airport
+from .models import AirLine, Aircraft, Flight, FlightCompany, Ticket, Airport, Worker
+from django.views.generic import ListView
+from django.views.generic import DetailView
 
 
 def home_view(request):
@@ -38,7 +40,7 @@ def reserve_view(request, flight_id):
 
         if request.method == "POST":
             phone = request.POST.get('Number')
-            print("*"*30,type(cost),',,,,','\n',cost)
+            
             Ticket.objects.create(
                 flight=flight, 
                 passenger=request.user, 
@@ -56,8 +58,32 @@ def reserve_view(request, flight_id):
 
 def services(request):
     airports = Airport.objects.all()
+    companies = FlightCompany.objects.all()
+    airlines = AirLine.objects.all()
     context = {
         'title': 'services',
         'airports': airports,
+        'companies': companies,
+        'airlines': airlines,
     }
     return render(request, 'services.html', context)
+
+
+
+class FlightCompanyDetailView(DetailView):
+    model = FlightCompany
+    template_name = 'flight_company_detail.html'
+    context_object_name = 'company'
+    
+    
+
+
+class AircraftDetailView(DetailView):
+    model = Aircraft
+    template_name = 'aircraft_detail.html'
+    context_object_name = 'aircraft'
+
+class WorkerListView(ListView):
+    model = Worker
+    template_name = 'worker_list.html'
+    context_object_name = 'workers'

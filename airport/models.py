@@ -5,17 +5,26 @@ from django.contrib.auth.models import User
 class FlightCompany(models.Model):
     """ Each flight company can include airports in different cities """
     name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="companies")
     description = models.TextField()
+    
+    def __str__(self):
+        return self.name
 
 
 class AirLine(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField()
+    
+    def __str__(self):
+        return self.name
     
     
 class Airport(models.Model):
     city = models.CharField(max_length=255)
     image = models.ImageField(upload_to='city')
-    
+    company = models.ForeignKey(FlightCompany, on_delete=models.CASCADE, related_name="airports")    
+
     def __str__(self):
         return self.city
     
@@ -26,6 +35,7 @@ class Airport(models.Model):
 class Aircraft(models.Model):
     name = models.CharField(max_length=255)
     aircarft_type = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="air_craft")
     description = models.TextField()
     
     def __str__(self):
@@ -76,6 +86,7 @@ class Store(models.Model):
 class Worker(models.Model):
     name = models.CharField(max_length=255)
     age = models.IntegerField()
+    image = models.ImageField(upload_to="workers")
     job = models.CharField(max_length=255)
     airport = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name="workers")
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="workers")
